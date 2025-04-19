@@ -1,12 +1,12 @@
-# Predictive-Analysis-of-FIFA-Player-Wages
+# ⚽ Predictive Analysis of FIFA Player Wages
 
 **Group Members:** Alina Huang, Pipat Gittisupab, Tvisha Modi, Tram Nguyen, Sandra Sunny
 
-**Abstract**
+## 📌 Abstract
 
 With the global growth of the football industry, the need for data-driven insights that could potentially drive informed decisions on player recruitment, team building, and financial investments is growing. This project aims to predict football player wages from their performance attributes using a comprehensive dataset scraped from FIFA. This dataset describes each player with 56 attributes, ranging from physical characteristics to technical skills and performance metrics. We used XGBoost for feature selection, ensuring that the most important features contributing to wage determination were identified. Several machine learning models, including XGBoost, Linear Regression, Random Forest, and SVR, were then trained and evaluated to find the best approach toward predicting wages. Results give insights into what factors most determine player wages and could be useful for football clubs, sports analysts, and financial stakeholders interested in player transfers.
 
-**Data Acquisition**
+## 🔍 Data Acquisition
 
 Data for this study were collected through web scraping of player information from FIFA, which has the detailed attributes of each player in the game. We first scraped all the links to individual players from the directory pages (https://www.fifaindex.com/players/). We looped over 600 pages to collect the links to personal pages (e.g., Erling Haaland) of 18241 players in FIFA in 2024. One difficulty we faced was the variation in the layout of the player’s pages. For example, some players are associated with multiple teams (club and national teams), whereas others are only associated with one team. The website regularly uses the same layout for tags, which makes it difficult to handle varying numbers of tags and identify associated data. Through trial and error, we were able to collect the main metrics and data that are available for most of the players. 
 
@@ -14,7 +14,7 @@ Since the website uses Cloudflare to prevent web scraping, we downloaded the Chr
 
 The dataset comprises 86 variables per player, covering age, ratings, skills, physical attributes, positions, and performance metrics. Collected from FIFA's online repositories, it spans multiple seasons, capturing players' abilities and career trajectories. The data is structured into rows representing players and columns detailing their attributes.
 
-**Exploratory Data Analysis and Feature Engineering**
+## 📊 Exploratory Data Analysis and Feature Engineering
 
 Initially, we used XGBoost to identify the top 20 most important features, applying the raw dataset as input (Figure 1). 
 
@@ -108,7 +108,7 @@ This concludes the data exploration and preprocessing phase. Using XGBoost, the 
   <em>Figure 14: Top 20 Important Features by XGBoost After Preprocessing.</em>
 </p>
 
-**Modeling & Results**
+## 🧠 Modeling & Results
 
 After analyzing and preprocessing the data, we proceeded to the modeling stage. The independent variables include the top 20 most important features identified using XGBoost, with wage as the dependent variable. Since wage is a continuous variable, we applied linear regression, random forest, and Epsilon-Support Vector Regression (SVR) for prediction modeling.
 
@@ -147,6 +147,6 @@ SVR’s objective is to find a function that best fits the data by ensuring that
 
 The model results in improvement from the using the dataset without data preprocessing. Out of the two feature sets selected by XGBoost , the set after preprocessing has a better R<sup>2</sup> compared to features before preprocessing while also minimizing more MSE. Preprocessed features have “overall_score” as the most important feature while non-preprocessed features have several technical skills as the most important features.
 
-**Conclusion and Future Improvements**
+## 📝 Conclusion and Future Improvements
 
 The following project successfully predicted football player wages using a comprehensive dataset scraped from FIFA, incorporating essential attributes that capture player performance, physical characteristics, and career-related metrics. Robust data preprocessing, including handling missing values, encoding categorical variables, and transforming skewed distributions, was done to improve the quality of the data and the accuracy of the model significantly. Feature engineering further enriched the dataset with meaningful variables like Age, Tenure at Club, and Market Value Ratio, while the dimensionality reduction using XGBoost retained only the most relevant features. Among the various models explored, XGBoost performed the best due to its strengths in handling high-dimensional data and finding key influencing factors that led to better predictive accuracy. Despite its limitations, the model provides valuable insights for wage negotiations, player recruitment, and talent identification, even without considering external factors like sponsorships or team performance. Expanding the dataset and using advanced ensemble techniques can further improve accuracy. This highlights the potential of machine learning in football analytics, offering actionable insights for clubs, analysts, and stakeholders.
