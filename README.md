@@ -26,7 +26,7 @@ Initially, we used XGBoost to identify the top 20 most important features, apply
   <em>Figure 1: Top 20 Important Features by XGBoost Before Preprocessing.</em>
 </p>
 
-This resulted in a mean squared error (MSE) of 90.91 and an R-squared value of 0.73. Next, we conducted exploratory data analysis (EDA) to examine the distribution of the dataset, with a particular focus on the target variable, wage, and other key features (e.g., age, scores) that we believe are strongly correlated with wages. Through EDA, we gained valuable insights into data distributions, feature relationships, and identified opportunities for feature engineering to enhance model performance. 
+This resulted in a mean squared error (MSE) of 90.91 and an R<sup>2</sup> value of 0.73. Next, we conducted exploratory data analysis (EDA) to examine the distribution of the dataset, with a particular focus on the target variable, wage, and other key features (e.g., age, scores) that we believe are strongly correlated with wages. Through EDA, we gained valuable insights into data distributions, feature relationships, and identified opportunities for feature engineering to enhance model performance. 
 
 The wage variable, serving as the target, exhibited strong skewness with most values clustered in lower brackets. Missing wage data, critical as the dependent variable, was removed. To address skewness and stabilize variance, appropriate transformations were applied (Figure 2).
 
@@ -98,7 +98,7 @@ Finally, values below the thresholds were replaced with a constant (-1) to separ
 
 Several categorical features were explored and preprocessed for consistency in modeling. The "Preferred Position" feature was numerically encoded after examining the frequencies of each position using value_counts(). Missing values in the "Date of Contract Expiration" were imputed with the mean of non-missing expiry years, while invalid or missing "Joining Club Date" years were replaced with the average joining year. Additionally, a new feature, "Tenure at Club," was created from these two, representing loyalty and club investment, which may influence a player's value.
 
-This concludes the data exploration and preprocessing phase. Using XGBoost, the top 20 features for predicting wages (Figure 14) were identified, achieving an MSE of 76.73 and an R2 of 0.77, reflecting improvements after preprocessing. The data was then split into 80% training and 20% test sets for modeling.
+This concludes the data exploration and preprocessing phase. Using XGBoost, the top 20 features for predicting wages (Figure 14) were identified, achieving an MSE of 76.73 and an R<sup>2</sup> of 0.77, reflecting improvements after preprocessing. The data was then split into 80% training and 20% test sets for modeling.
 
 <p align="center">
   <img src="graphs/Figure_14.png" width="500" alt="Top 20 Important Features by XGBoost After Preprocessing"/>
@@ -127,8 +127,26 @@ After analyzing and preprocessing the data, we proceeded to the modeling stage. 
 
 </div>
 
+**1. Linear Regression**
 
+Linear Regression is simple and interpretable, allowing feature coefficients to directly reflect their impact on wages. However, its linearity assumption limits its performance when relationships, like age and wages, are non-linear. For example, younger players may have higher wages due to potential, but this can plateau or decline with age, which Linear Regression fails to capture accurately.
+
+When applying Linear Regression to the processed data, we achieved an R<sup>2</sup> score of 0.39 and an MSE of 202.77. However, after feature selection using XGBoost, the R<sup>2</sup> score dropped to 0.31, and the MSE increased to 230.84. This outcome contrasts with the improved performance observed in the XGBoost model itself. These inconsistencies highlight the limitations of Linear Regression and motivated us to explore other models better suited for identifying the most influential factors.
+
+**2. Random Forest**
+
+Random Forest model was used to predict football player wages because of its ability to handle high-dimensional datasets and reduce overfitting through ensemble learning. The model was configured with 100 decision trees (n_estimators=100) and a fixed random state (random_state=42) to ensure reproducibility. The results indicate that the top 20 features after preprocessing performed better, achieving a lower MSE (82.80) and a higher R<sup>2</sup> score (0.75) compared to the features before preprocessing (MSE: 109.73, R<sup>2</sup>: 0.67).
+
+Despite slight differences in feature rankings between the two configurations, the most influential features remained consistent, reflecting their importance in determining player wages. However, the relatively low R2 values suggest that the current features may not fully capture the variability in wages, highlighting the need for further feature engineering and additional data sources.
+
+The comparison underscores the importance of preprocessing in improving model accuracy and highlights the critical role of feature selection. While preprocessing enhanced the Random Forest model's predictive performance, future work should focus on incorporating richer data and refining feature engineering to better capture the complexities influencing player wages.
+
+**3. Epsilon-Support Vector Regression (SVR)**
+
+SVR’s objective is to find a function that best fits the data by ensuring that the errors are within a certain margin, specified by a parameter ε. The model tries to approximate the target variable as closely as possible while allowing some tolerance for errors, rather than trying to minimize every single error. SVR’s advantages include effectiveness in high-dimensional spaces when using non-linear kernel functions (in this case, we used “RBF: Radial Basis Function” as the kernel) and robustness to outliers due to the use of the margin of tolerance ε. Meanwhile, SVR is computationally expensive in order to store support vectors in high-dimensional spaces.
+
+The model results in improvement from the using the dataset without data preprocessing. Out of the two feature sets selected by XGBoost , the set after preprocessing has a better R<sup>2</sup> compared to features before preprocessing while also minimizing more MSE. Preprocessed features have “overall_score” as the most important feature while non-preprocessed features have several technical skills as the most important features.
 
 **Conclusion and Future Improvements**
 
-The following project successfully predicted football player wages using a comprehensive dataset scraped from FIFA, incorporating essential attributes that capture player performance, physical characteristics, and career-related metrics. Robust data preprocessing, including handling missing values, encoding categorical variables, and transforming skewed distributions, was done to improve the quality of the data and the accuracy of the model significantly. Feature engineering further enriched the dataset with meaningful variables like Age, Tenure at Club, and Market Value Ratio, while the dimensionality reduction using XGBoost retained only the most relevant features.Among the various models explored, XGBoost performed the best due to its strengths in handling high-dimensional data and finding key influencing factors that led to better predictive accuracy. Despite its limitations, the model provides valuable insights for wage negotiations, player recruitment, and talent identification, even without considering external factors like sponsorships or team performance. Expanding the dataset and using advanced ensemble techniques can further improve accuracy. This highlights the potential of machine learning in football analytics, offering actionable insights for clubs, analysts, and stakeholders.
+The following project successfully predicted football player wages using a comprehensive dataset scraped from FIFA, incorporating essential attributes that capture player performance, physical characteristics, and career-related metrics. Robust data preprocessing, including handling missing values, encoding categorical variables, and transforming skewed distributions, was done to improve the quality of the data and the accuracy of the model significantly. Feature engineering further enriched the dataset with meaningful variables like Age, Tenure at Club, and Market Value Ratio, while the dimensionality reduction using XGBoost retained only the most relevant features. Among the various models explored, XGBoost performed the best due to its strengths in handling high-dimensional data and finding key influencing factors that led to better predictive accuracy. Despite its limitations, the model provides valuable insights for wage negotiations, player recruitment, and talent identification, even without considering external factors like sponsorships or team performance. Expanding the dataset and using advanced ensemble techniques can further improve accuracy. This highlights the potential of machine learning in football analytics, offering actionable insights for clubs, analysts, and stakeholders.
