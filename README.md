@@ -41,10 +41,10 @@ The wage variable, serving as the target, exhibited strong skewness with most va
 A log transformation was applied, which partially normalized the distribution but did not fully resolve the skewness (Figure 3). A square root transformation provided the best empirical results in reducing skewness (Figure 4), followed by a Box-Cox transformation, which further stabilized variance and enhanced normality for positive-valued data (Figure 5). Lastly, a Yeo-Johnson transformation was performed using scikit-learn's PowerTransformer, handling both positive and negative values and producing a symmetric distribution (Figure 6). Ultimately, the square root transformation was selected as the most effective in mitigating skewness, and the model was trained to predict square-rooted wages.
 
 <p align="center">
-  <img src="graphs/Figure_3.png" width="225" alt="Log Transformation"/>
-  <img src="graphs/Figure_4.png" width="225" alt="Square Root Transformation"/>
-  <img src="graphs/Figure_5.png" width="225" alt="Box-Cox Transformation"/>
-  <img src="graphs/Figure_6.png" width="225" alt="Yeo-Johnson Transformation"/>
+  <img src="graphs/Figure_3.png" width="200" alt="Log Transformation"/>
+  <img src="graphs/Figure_4.png" width="200" alt="Square Root Transformation"/>
+  <img src="graphs/Figure_5.png" width="200" alt="Box-Cox Transformation"/>
+  <img src="graphs/Figure_6.png" width="200" alt="Yeo-Johnson Transformation"/>
 </p>
 
 <p align="center">
@@ -84,10 +84,10 @@ The weight distribution was normally distributed, and to account for extreme wei
 Features like Ball Control, Dribbling, Slide Tackle, and Stand Tackle exhibited bimodal distributions (Figure 10-13), leading to the creation of binary columns based on threshold values to represent low and high performances. 
 
 <p align="center">
-  <img src="graphs/Figure_10.png" width="225" alt="Ball Control Distribution"/>
-  <img src="graphs/Figure_11.png" width="225" alt="Dribbling Distribution"/>
-  <img src="graphs/Figure_12.png" width="225" alt="Slide Tackle Distribution"/>
-  <img src="graphs/Figure_13.png" width="225" alt="Stand Tackle Distribution"/>
+  <img src="graphs/Figure_10.png" width="200" alt="Ball Control Distribution"/>
+  <img src="graphs/Figure_11.png" width="200" alt="Dribbling Distribution"/>
+  <img src="graphs/Figure_12.png" width="200" alt="Slide Tackle Distribution"/>
+  <img src="graphs/Figure_13.png" width="200" alt="Stand Tackle Distribution"/>
 </p>
 
 <p align="center">
