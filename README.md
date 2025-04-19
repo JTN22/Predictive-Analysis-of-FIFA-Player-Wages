@@ -1,4 +1,4 @@
-# ⚽ Predictive Analysis of FIFA Player Wages
+# ⚽ Unlocking the Secrets of FIFA Player Wages: A Predictive Analysis
 
 **Group Members:** Alina Huang, Pipat Gittisupab, Tvisha Modi, Tram Nguyen, Sandra Sunny
 
