@@ -16,23 +16,103 @@ The dataset comprises 86 variables per player, covering age, ratings, skills, ph
 
 **Exploratory Data Analysis and Feature Engineering**
 
-Initially, we used XGBoost to identify the top 20 most important features, applying the raw dataset as input (Figure 1). This resulted in a mean squared error (MSE) of 90.91 and an R-squared value of 0.73. Next, we conducted exploratory data analysis (EDA) to examine the distribution of the dataset, with a particular focus on the target variable, wage, and other key features (e.g., age, scores) that we believe are strongly correlated with wages. Through EDA, we gained valuable insights into data distributions, feature relationships, and identified opportunities for feature engineering to enhance model performance. 
+Initially, we used XGBoost to identify the top 20 most important features, applying the raw dataset as input (Figure 1). 
 
-The wage variable, serving as the target, exhibited strong skewness with most values clustered in lower brackets. Missing wage data, critical as the dependent variable, was removed. To address skewness and stabilize variance, appropriate transformations were applied.
+<p align="center">
+  <img src="graphs/Figure_1.png" width="500" alt="Top 20 Important Features by XGBoost Before Preprocessing"/>
+</p>
 
-A log transformation was applied, which partially normalized the distribution but did not fully resolve the skewness. A square root transformation provided the best empirical results in reducing skewness, followed by a Box-Cox transformation, which further stabilized variance and enhanced normality for positive-valued data. Lastly, a Yeo-Johnson transformation was performed using scikit-learn's PowerTransformer, handling both positive and negative values and producing a symmetric distribution (Figure 6). Ultimately, the square root transformation was selected as the most effective in mitigating skewness, and the model was trained to predict square-rooted wages.
+<p align="center">
+  <em>Figure 1: Top 20 Important Features by XGBoost Before Preprocessing.</em>
+</p>
 
-The feature analysis process involved examining key features to understand their distributions and determine the need for preprocessing. The analysis revealed several insights for feature engineering. The age histogram showed a concentration of players in the 20–30 age range, prompting the categorization of age into groups [0–20, 20-40, 40+], with players aged 20-40 assigned a value of 1 to reflect their prime years, which improved model performance. The height distribution, centered around 180 cm, suggested that taller players (above 180 cm) might excel in heading skills, so they were assigned a value of 1, with shorter players assigned zero, further enhancing model performance (Figure 8). Missing height data was replaced with the mean value.
+This resulted in a mean squared error (MSE) of 90.91 and an R-squared value of 0.73. Next, we conducted exploratory data analysis (EDA) to examine the distribution of the dataset, with a particular focus on the target variable, wage, and other key features (e.g., age, scores) that we believe are strongly correlated with wages. Through EDA, we gained valuable insights into data distributions, feature relationships, and identified opportunities for feature engineering to enhance model performance. 
 
-The weight distribution was normally distributed, and to account for extreme weights potentially impacting performance, indicator variables were added for players with weights below 70 kg or above 90 kg, with missing values replaced by the mean. Features like Ball Control, Dribbling, Slide Tackle, and Stand Tackle exhibited bimodal distributions, leading to the creation of binary columns based on threshold values to represent low and high performances. Finally, values below the thresholds were replaced with a constant (-1) to separate the peaks, and the remaining values were standardized using RobustScaler to handle outliers and ensure consistent scaling.
+The wage variable, serving as the target, exhibited strong skewness with most values clustered in lower brackets. Missing wage data, critical as the dependent variable, was removed. To address skewness and stabilize variance, appropriate transformations were applied (Figure 2).
+
+<p align="center">
+  <img src="graphs/Figure_2.png" width="500" alt="Raw Distribution of Wages"/>
+</p>
+
+<p align="center">
+  <em>Figure 2: Raw Distribution of Wages.</em>
+</p>
+
+A log transformation was applied, which partially normalized the distribution but did not fully resolve the skewness (Figure 3). A square root transformation provided the best empirical results in reducing skewness (Figure 4), followed by a Box-Cox transformation, which further stabilized variance and enhanced normality for positive-valued data (Figure 5). Lastly, a Yeo-Johnson transformation was performed using scikit-learn's PowerTransformer, handling both positive and negative values and producing a symmetric distribution (Figure 6). Ultimately, the square root transformation was selected as the most effective in mitigating skewness, and the model was trained to predict square-rooted wages.
+
+<p align="center">
+  <img src="graphs/Figure_3.png" width="225" alt="Log Transformation"/>
+  <img src="graphs/Figure_4.png" width="225" alt="Square Root Transformation"/>
+  <img src="graphs/Figure_5.png" width="225" alt="Box-Cox Transformation"/>
+  <img src="graphs/Figure_6.png" width="225" alt="Yeo-Johnson Transformation"/>
+</p>
+
+<p align="center">
+  <em>Figure 3–6: Target variable transformations to reduce skewness.</em>
+</p>
+
+The feature analysis process involved examining key features to understand their distributions and determine the need for preprocessing. The analysis revealed several insights for feature engineering. The age histogram showed a concentration of players in the 20–30 age range, prompting the categorization of age into groups [0–20, 20-40, 40+], with players aged 20-40 assigned a value of 1 to reflect their prime years, which improved model performance (Figure 7). 
+
+<p align="center">
+  <img src="graphs/Figure_7.png" width="500" alt="Age Distribution"/>
+</p>
+
+<p align="center">
+  <em>Figure 7: Age Distribution.</em>
+</p>
+
+The height distribution, centered around 180 cm, suggested that taller players (above 180 cm) might excel in heading skills, so they were assigned a value of 1, with shorter players assigned zero, further enhancing model performance (Figure 8). Missing height data was replaced with the mean value.
+
+<p align="center">
+  <img src="graphs/Figure_8.png" width="500" alt="Height Distribution"/>
+</p>
+
+<p align="center">
+  <em>Figure 8: Height Distribution.</em>
+</p>
+
+The weight distribution was normally distributed, and to account for extreme weights potentially impacting performance, indicator variables were added for players with weights below 70 kg or above 90 kg, with missing values replaced by the mean (Figure 9). 
+
+<p align="center">
+  <img src="graphs/Figure_9.png" width="500" alt="Weight Distribution"/>
+</p>
+
+<p align="center">
+  <em>Figure 9: Weight Distribution.</em>
+</p>
+
+Features like Ball Control, Dribbling, Slide Tackle, and Stand Tackle exhibited bimodal distributions (Figure 10-13), leading to the creation of binary columns based on threshold values to represent low and high performances. 
+
+<p align="center">
+  <img src="graphs/Figure_10.png" width="225" alt="Ball Control Distribution"/>
+  <img src="graphs/Figure_11.png" width="225" alt="Dribbling Distribution"/>
+  <img src="graphs/Figure_12.png" width="225" alt="Slide Tackle Distribution"/>
+  <img src="graphs/Figure_13.png" width="225" alt="Stand Tackle Distribution"/>
+</p>
+
+<p align="center">
+  <em>Figure 10–13: Bimodal distributions of key technical features leading to binary encoding.</em>
+</p>
+
+Finally, values below the thresholds were replaced with a constant (-1) to separate the peaks, and the remaining values were standardized using RobustScaler to handle outliers and ensure consistent scaling.
 
 Several categorical features were explored and preprocessed for consistency in modeling. The "Preferred Position" feature was numerically encoded after examining the frequencies of each position using value_counts(). Missing values in the "Date of Contract Expiration" were imputed with the mean of non-missing expiry years, while invalid or missing "Joining Club Date" years were replaced with the average joining year. Additionally, a new feature, "Tenure at Club," was created from these two, representing loyalty and club investment, which may influence a player's value.
 
-This concludes the data exploration and preprocessing phase. Using XGBoost, the top 20 features for predicting wages were identified, achieving an MSE of 76.73 and an R2 of 0.77, reflecting improvements after preprocessing. The data was then split into 80% training and 20% test sets for modeling.
+This concludes the data exploration and preprocessing phase. Using XGBoost, the top 20 features for predicting wages (Figure 14) were identified, achieving an MSE of 76.73 and an R2 of 0.77, reflecting improvements after preprocessing. The data was then split into 80% training and 20% test sets for modeling.
+
+<p align="center">
+  <img src="graphs/Figure_14.png" width="500" alt="Top 20 Important Features by XGBoost After Preprocessing"/>
+</p>
+
+<p align="center">
+  <em>Figure 14: Top 20 Important Features by XGBoost After Preprocessing.</em>
+</p>
 
 **Modeling & Results**
 
 After analyzing and preprocessing the data, we proceeded to the modeling stage. The independent variables include the top 20 most important features identified using XGBoost, with wage as the dependent variable. Since wage is a continuous variable, we applied linear regression, random forest, and Epsilon-Support Vector Regression (SVR) for prediction modeling.
+
+<div align="center">
 
 | Model            | Preprocessing | MSE     | R² Score |
 |------------------|---------------|---------|----------|
@@ -44,6 +124,10 @@ After analyzing and preprocessing the data, we proceeded to the modeling stage. 
 |                  | After         | 82.80   | 0.75     |
 | **SVR**           | Before        | 105.46  | 0.68     |
 |                  | After         | 77.07   | 0.77     |
+
+</div>
+
+
 
 **Conclusion and Future Improvements**
 
