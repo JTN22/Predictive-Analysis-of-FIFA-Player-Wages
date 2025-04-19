@@ -30,6 +30,21 @@ Several categorical features were explored and preprocessed for consistency in m
 
 This concludes the data exploration and preprocessing phase. Using XGBoost, the top 20 features for predicting wages were identified, achieving an MSE of 76.73 and an R2 of 0.77, reflecting improvements after preprocessing. The data was then split into 80% training and 20% test sets for modeling.
 
+**Modeling & Results**
+
+After analyzing and preprocessing the data, we proceeded to the modeling stage. The independent variables include the top 20 most important features identified using XGBoost, with wage as the dependent variable. Since wage is a continuous variable, we applied linear regression, random forest, and Epsilon-Support Vector Regression (SVR) for prediction modeling.
+
+| Model            | Preprocessing | MSE     | R² Score |
+|------------------|---------------|---------|----------|
+| **XGBoost**       | Before        | 90.91   | 0.73     |
+|                  | After         | 76.73   | 0.77     |
+| **Linear Regression** | Before    | 202.77  | 0.39     |
+|                  | After         | 230.84  | 0.31     |
+| **Random Forest** | Before        | 109.73  | 0.67     |
+|                  | After         | 82.80   | 0.75     |
+| **SVR**           | Before        | 105.46  | 0.68     |
+|                  | After         | 77.07   | 0.77     |
+
 **Conclusion and Future Improvements**
 
 The following project successfully predicted football player wages using a comprehensive dataset scraped from FIFA, incorporating essential attributes that capture player performance, physical characteristics, and career-related metrics. Robust data preprocessing, including handling missing values, encoding categorical variables, and transforming skewed distributions, was done to improve the quality of the data and the accuracy of the model significantly. Feature engineering further enriched the dataset with meaningful variables like Age, Tenure at Club, and Market Value Ratio, while the dimensionality reduction using XGBoost retained only the most relevant features.Among the various models explored, XGBoost performed the best due to its strengths in handling high-dimensional data and finding key influencing factors that led to better predictive accuracy. Despite its limitations, the model provides valuable insights for wage negotiations, player recruitment, and talent identification, even without considering external factors like sponsorships or team performance. Expanding the dataset and using advanced ensemble techniques can further improve accuracy. This highlights the potential of machine learning in football analytics, offering actionable insights for clubs, analysts, and stakeholders.
